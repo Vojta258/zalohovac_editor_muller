@@ -10,7 +10,8 @@ namespace zalohovac_editor_muller.Presentation.Components
         private string _text;
         private int _size;
 
-        public TextBox(string value, string text, int size = 32, bool inline = false)
+        public TextBox( string text, int size = 32, bool inline = false)
+            : base(inline)
         {
             Value = string.Empty;
             _text = text;

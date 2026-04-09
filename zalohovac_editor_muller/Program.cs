@@ -1,10 +1,15 @@
-﻿namespace zalohovac_editor_muller
+﻿using zalohovac_editor_muller.Presentation.Windows;
+
+namespace zalohovac_editor_muller
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Application app = new Application();
+
+            IWindow window = new JsonSettingWindow();
+            app.Run(window);
             
         }
     }
