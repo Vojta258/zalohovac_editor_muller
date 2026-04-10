@@ -8,11 +8,9 @@ namespace zalohovac_editor_muller
         static void Main(string[] args)
         {
             Application app = new Application();
-            BackupJob backupJob = new BackupJob();
-            BackupMethod backupMethod = new BackupMethod();
-            BackupRetention backupRetention = new BackupRetention();
 
-            IWindow window = new JsonSettingWindow(backupJob, backupMethod, backupRetention,app);
+
+            IWindow window = new MainMenu(app);
             app.Run(window);
             
         }

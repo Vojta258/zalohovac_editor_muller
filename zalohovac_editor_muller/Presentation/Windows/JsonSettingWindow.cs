@@ -29,15 +29,15 @@ namespace zalohovac_editor_muller.Presentation.Windows
         CronValidator cronValidator = new CronValidator();
         
 
-        public JsonSettingWindow(BackupJob backupJob,BackupMethod backupMethod, BackupRetention backupRetention ,Application application, IWindow? returnWindow = null) //jeste sem pak _backupJob
+        public JsonSettingWindow(BackupJob backupJob,BackupMethod backupMethod, BackupRetention backupRetention ,Application application, IWindow? returnWindow) //jeste sem pak _backupJob
             : base("Json setting select", application, returnWindow)
         {
             _backupJob = backupJob;
             _backupMethod = backupMethod;
             _backupRetention = backupRetention;
 
-            _sourcesTextBox = new TextBox("Sources :\t", 64);
-            _targetsTextBox = new TextBox("Targets :\t", 64);
+            _sourcesTextBox = new TextBox("Sources(use ; for more paths) :\t", 64);
+            _targetsTextBox = new TextBox("Targets(use ; for more paths) :\t", 64);
             _methodTextBox = new TextBox("Method :\t", 32);
             _timingTextBox = new TextBox("Timning :\t", 32);
 
@@ -71,8 +71,14 @@ namespace zalohovac_editor_muller.Presentation.Windows
 
         private void SetEntityValues()
         {
-            _backupJob.Sources = new List<string> { _sourcesTextBox.Value };
-            _backupJob.Targets = new List<string> { _targetsTextBox.Value };
+            _backupJob.Sources = _sourcesTextBox.Value
+                .Split(';')
+                .ToList();
+
+            _backupJob.Targets = _targetsTextBox.Value
+                .Split(';')
+                .ToList();
+
             if (Enum.TryParse<BackupMethod>(_methodTextBox.Value, true, out var method)) { _backupJob.Method = method; } //returns true or false -> no need for validation
             _backupJob.Timing = _timingTextBox.Value;            
             _backupRetention.Count = Convert.ToInt32(_countTextBox.Value);
