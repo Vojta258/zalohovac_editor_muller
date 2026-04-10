@@ -8,7 +8,7 @@ using zalohovac_editor_muller.Entities;
 
 namespace zalohovac_editor_muller.Validator
 {
-    public class BackupJobValidator
+    public class CronValidator
     {
         public void Validate(BackupJob entity)
         {
@@ -23,6 +23,8 @@ namespace zalohovac_editor_muller.Validator
             return cron == null
                 || (regex.IsMatch(cron));
         }
+
+        
 
     }
 

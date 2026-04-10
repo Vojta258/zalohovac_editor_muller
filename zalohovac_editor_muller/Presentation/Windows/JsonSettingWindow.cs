@@ -7,7 +7,7 @@ namespace zalohovac_editor_muller.Presentation.Windows
 {
     public class JsonSettingWindow : BaseWindow
     {
-        protected BackupJobValidator _validator;
+        
 
         private BackupJob _backupJob;
         private BackupMethod _backupMethod;
@@ -25,6 +25,9 @@ namespace zalohovac_editor_muller.Presentation.Windows
 
         private Button _saveButton;
         private Button _cancelButton;
+
+        CronValidator cronValidator = new CronValidator();
+        
 
         public JsonSettingWindow(BackupJob backupJob,BackupMethod backupMethod, BackupRetention backupRetention ,Application application, IWindow? returnWindow = null) //jeste sem pak _backupJob
             : base("Json setting select", application, returnWindow)
@@ -80,11 +83,13 @@ namespace zalohovac_editor_muller.Presentation.Windows
 
         private void SaveButtonClicked()
         {
-            
-            SetEntityValues();
+            try
+            {
 
-            
-            
+                SetEntityValues();
+
+                cronValidator.Validate(_backupJob);
+
                 List<BackupJob> joblist = new List<BackupJob> { _backupJob };
 
 
@@ -95,8 +100,28 @@ namespace zalohovac_editor_muller.Presentation.Windows
 
                 System.IO.File.WriteAllText("config.json", jsonString); //easy to implement different folders
 
-
                 Submit();
+            }
+            catch (Exception ex) when(ex.Message.Contains("Timing"))
+            {
+                _timingTextBox.Value = "!INVALID CRON!";
+
+                _sourcesTextBox.Value = string.Empty;
+                _targetsTextBox.Value = string.Empty;
+                _methodTextBox.Value = string.Empty;             
+                _countTextBox.Value = string.Empty;
+                _sizeTextBox.Value = string.Empty;
+            }
+            catch (Exception)
+            {
+                _sourcesTextBox.Value = string.Empty;
+                _targetsTextBox.Value = string.Empty;
+                _methodTextBox.Value = string.Empty;
+                _timingTextBox.Value = string.Empty;
+                _countTextBox.Value = string.Empty;
+                _sizeTextBox.Value = string.Empty;
+                
+            }
             
             
 
