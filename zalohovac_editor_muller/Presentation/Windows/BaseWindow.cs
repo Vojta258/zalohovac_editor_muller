@@ -76,5 +76,11 @@ namespace zalohovac_editor_muller.Presentation.Windows
             Submitted?.Invoke();
             Close();
         }
+
+        protected void SubmitNoClose()
+        {
+            Submitted?.Invoke();
+           
+        }
     }
 }

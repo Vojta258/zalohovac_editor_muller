@@ -45,6 +45,10 @@ namespace zalohovac_editor_muller.Presentation.Windows
             window.Show();
         }
 
+        private void LoadJsonButton() //bylo by použito pro přesměrování do nového okna, které by sloužilo pro nahrání Json souboru
+        {
+        }
+
         private void ExitButtonClicked()
         {
             _application.Stop();

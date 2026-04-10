@@ -24,13 +24,13 @@ namespace zalohovac_editor_muller.Presentation.Windows
             _noButton.Clicked += NoButtonClicked;
 
         }
-       private void YesButtonClicked()
+       private void YesButtonClicked() //unožnilo by pokračovat v tvoření záloh do stejného souboru
         {
 
         }
        private void NoButtonClicked()
        {
-            Submit();
+            Close();
        }
     }
 }

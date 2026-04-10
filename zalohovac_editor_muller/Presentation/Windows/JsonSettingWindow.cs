@@ -32,6 +32,8 @@ namespace zalohovac_editor_muller.Presentation.Windows
         public JsonSettingWindow(BackupJob backupJob,BackupMethod backupMethod, BackupRetention backupRetention ,Application application, IWindow? returnWindow) //jeste sem pak _backupJob
             : base("Json setting select", application, returnWindow)
         {
+            _returnWindow = returnWindow;
+
             _backupJob = backupJob;
             _backupMethod = backupMethod;
             _backupRetention = backupRetention;
@@ -64,7 +66,7 @@ namespace zalohovac_editor_muller.Presentation.Windows
 
         }
 
-        private void SetComponentValues()
+        private void SetComponentValues() //použito při načítání Json souboru
         {
 
         }
@@ -79,7 +81,7 @@ namespace zalohovac_editor_muller.Presentation.Windows
                 .Split(';')
                 .ToList();
 
-            if (Enum.TryParse<BackupMethod>(_methodTextBox.Value, true, out var method)) { _backupJob.Method = method; } //returns true or false -> no need for validation
+            if (Enum.TryParse<BackupMethod>(_methodTextBox.Value, true, out var method)) { _backupJob.Method = method; } 
             _backupJob.Timing = _timingTextBox.Value;            
             _backupRetention.Count = Convert.ToInt32(_countTextBox.Value);
             _backupRetention.Size = Convert.ToInt32(_sizeTextBox.Value);
@@ -106,7 +108,12 @@ namespace zalohovac_editor_muller.Presentation.Windows
 
                 System.IO.File.WriteAllText("config.json", jsonString); //easy to implement different folders
 
-                Submit();
+                SubmitNoClose();
+
+                IWindow window = new ChooseMoreBackupsWindow(_application, _returnWindow);
+                window.Show();
+                
+
             }
             catch (Exception ex) when(ex.Message.Contains("Timing"))
             {
@@ -132,6 +139,8 @@ namespace zalohovac_editor_muller.Presentation.Windows
         {
             Close();
         }
+
+      
 
     }
 }
