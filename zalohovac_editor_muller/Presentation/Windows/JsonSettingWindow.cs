@@ -1,4 +1,5 @@
-﻿using zalohovac_editor_muller.Entities;
+﻿using System.Runtime.InteropServices;
+using zalohovac_editor_muller.Entities;
 using zalohovac_editor_muller.Presentation.Components;
 
 namespace zalohovac_editor_muller.Presentation.Windows
@@ -7,7 +8,7 @@ namespace zalohovac_editor_muller.Presentation.Windows
     {
         private BackupJob _backupJob;
         private BackupMethod _backupMethod;
-        private BackupRetention _backupRetention; //service (prozatim bez toho)
+        private BackupRetention _backupRetention; 
 
         private TextBox _sourcesTextBox;
         private TextBox _targetsTextBox;
@@ -57,21 +58,20 @@ namespace zalohovac_editor_muller.Presentation.Windows
 
         }
 
-        //private void SetComponentValues()
-        //{
+        private void SetComponentValues()
+        {
 
-        //}
+        }
 
-        //private void SetEntityValues()
-        //{
-        //    _backupJob.Sources = _sourcesTextBox.Value;
-        //    _backupJob.Targets = _targetsTextBox.Value;
-        //    _backupJob.Method = _methodTextBox.Value;
-        //    _backupJob.Timing = _timingTextBox.Value;
-        //    _backupJob.
-            
+        private void SetEntityValues()
+        {
+            _backupJob.Sources = new List<string> { _sourcesTextBox.Value };
+            _backupJob.Targets = new List<string> { _targetsTextBox.Value };
+            if (Enum.TryParse<BackupMethod>(_methodTextBox.Value, true,out var method)) { _backupJob.Method = method; } //returns true or false -> no need for validation
+            _backupRetention.Count = Convert.ToInt32(_countTextBox.Value);
+            _backupRetention.Size = Convert.ToInt32(_sizeTextBox.Value);
 
-        //}
+        }
 
         private void SaveButtonClicked()
         {}
