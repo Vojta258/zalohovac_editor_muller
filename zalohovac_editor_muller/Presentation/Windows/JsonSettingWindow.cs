@@ -112,11 +112,6 @@ namespace zalohovac_editor_muller.Presentation.Windows
             {
                 _timingTextBox.Value = "!INVALID CRON!";
 
-                _sourcesTextBox.Value = string.Empty;
-                _targetsTextBox.Value = string.Empty;
-                _methodTextBox.Value = string.Empty;             
-                _countTextBox.Value = string.Empty;
-                _sizeTextBox.Value = string.Empty;
             }
             catch (Exception)
             {
