@@ -1,11 +1,14 @@
 ﻿using System.Runtime.InteropServices;
 using zalohovac_editor_muller.Entities;
 using zalohovac_editor_muller.Presentation.Components;
+using zalohovac_editor_muller.Validator;
 
 namespace zalohovac_editor_muller.Presentation.Windows
 {
     public class JsonSettingWindow : BaseWindow
     {
+        protected BackupJobValidator _validator;
+
         private BackupJob _backupJob;
         private BackupMethod _backupMethod;
         private BackupRetention _backupRetention; 
@@ -77,20 +80,25 @@ namespace zalohovac_editor_muller.Presentation.Windows
 
         private void SaveButtonClicked()
         {
+            
             SetEntityValues();
 
-            List<BackupJob> joblist = new List<BackupJob> { _backupJob };
-           
+            
+            
+                List<BackupJob> joblist = new List<BackupJob> { _backupJob };
 
-            string jsonString = System.Text.Json.JsonSerializer.Serialize(
-                joblist,
-                new System.Text.Json.JsonSerializerOptions { WriteIndented = true}
-                );
 
-            System.IO.File.WriteAllText("cofig.json", jsonString); //easy to implement different folders
+                string jsonString = System.Text.Json.JsonSerializer.Serialize(
+                    joblist,
+                    new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
 
-            Submit();
-           
+
+                System.IO.File.WriteAllText("config.json", jsonString); //easy to implement different folders
+
+
+                Submit();
+            
+            
 
         }
 
