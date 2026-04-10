@@ -67,14 +67,32 @@ namespace zalohovac_editor_muller.Presentation.Windows
         {
             _backupJob.Sources = new List<string> { _sourcesTextBox.Value };
             _backupJob.Targets = new List<string> { _targetsTextBox.Value };
-            if (Enum.TryParse<BackupMethod>(_methodTextBox.Value, true,out var method)) { _backupJob.Method = method; } //returns true or false -> no need for validation
+            if (Enum.TryParse<BackupMethod>(_methodTextBox.Value, true, out var method)) { _backupJob.Method = method; } //returns true or false -> no need for validation
+            _backupJob.Timing = _timingTextBox.Value;            
             _backupRetention.Count = Convert.ToInt32(_countTextBox.Value);
             _backupRetention.Size = Convert.ToInt32(_sizeTextBox.Value);
+            _backupJob.Retention = _backupRetention;
 
         }
 
         private void SaveButtonClicked()
-        {}
+        {
+            SetEntityValues();
+
+            List<BackupJob> joblist = new List<BackupJob> { _backupJob };
+           
+
+            string jsonString = System.Text.Json.JsonSerializer.Serialize(
+                joblist,
+                new System.Text.Json.JsonSerializerOptions { WriteIndented = true}
+                );
+
+            System.IO.File.WriteAllText("cofig.json", jsonString); //easy to implement different folders
+
+            Submit();
+           
+
+        }
 
         private void CancelButtonClicked()
         {
